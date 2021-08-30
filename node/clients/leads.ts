@@ -3,6 +3,20 @@ import { ExternalClient } from '@vtex/api'
 
 
 
+type Lead = {
+  "userEmail": string,
+  "userType": string,
+  "clientSince": string,
+  "lastModified": string,
+  "id": string,
+  "phone": string,
+  "name": string
+}
+
+type objectLead = {
+  Items: Lead[]
+}
+
 export default class Leads extends ExternalClient {
   constructor(context: IOContext, options?: InstanceOptions) {
     super(
@@ -13,8 +27,8 @@ export default class Leads extends ExternalClient {
   }
 
 
-  public async getLead(leadId: string): Promise<string> {
-    return this.http.get(leadId, {
+  public async getLeads(): Promise<objectLead> {
+    return this.http.get('', {
       metric: 'lead-get',
     })
   }
@@ -24,7 +38,8 @@ export default class Leads extends ExternalClient {
       {
         name,
         phone,
-        userEmail: email
+        userEmail: email,
+        userType: "client"
       },
 
       {
@@ -33,7 +48,7 @@ export default class Leads extends ExternalClient {
   }
 
   public async setLeadAsClient(leadId: string): Promise<string> {
-    console.log("SETANDO COMO CLIENT O", leadId)
+    console.log("SETADO COMO CLIENT O", leadId)
     return this.http.patch(leadId, {
       userType: "client"
     },

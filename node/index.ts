@@ -7,7 +7,6 @@ import { getProducts } from './middlewares/getProducts'
 import { validateSku } from './middlewares/validateSku'
 import { getOrder } from './middlewares/getOrder'
 import { validateOrder } from './middlewares/validateOrder'
-import { allStates } from './middlewares/allStates'
 import { someStates } from './middlewares/someStates'
 
 const TIMEOUT_MS = 800
@@ -62,7 +61,6 @@ declare global {
 export default new Service({
   clients,
   events: {
-    allStates,
     someStates,
   },
   routes: {
