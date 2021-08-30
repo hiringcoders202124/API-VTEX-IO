@@ -1,10 +1,14 @@
-import type { ClientsConfig, ServiceContext, RecorderState } from '@vtex/api'
+import type { ClientsConfig, ServiceContext, RecorderState, EventContext } from '@vtex/api'
 import { LRUCache, method, Service } from '@vtex/api'
 
 import { Clients } from './clients'
 import { getSku } from './middlewares/getSku'
 import { getProducts } from './middlewares/getProducts'
 import { validateSku } from './middlewares/validateSku'
+import { getOrder } from './middlewares/getOrder'
+import { validateOrder } from './middlewares/validateOrder'
+import { allStates } from './middlewares/allStates'
+import { someStates } from './middlewares/someStates'
 
 const TIMEOUT_MS = 800
 
@@ -37,13 +41,30 @@ declare global {
 
   // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
   interface State extends RecorderState {
-    code: number
+    code: number,
+    id: string
   }
+  interface StatusChangeContext extends EventContext<Clients> {
+    body: {
+      domain: string
+      orderId: string
+      currentState: string
+      lastState: string
+      currentChangeDate: string
+      lastChangeDate: string
+    }
+  }
+  // The shape of our State object found in `ctx.state`. This is used as state bag to communicate between middlewares.
+  interface State extends RecorderState { }
 }
 
 // Export a service that defines route handlers and client options.
 export default new Service({
   clients,
+  events: {
+    allStates,
+    someStates,
+  },
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
     getSku: method({
@@ -51,6 +72,9 @@ export default new Service({
     }),
     getProducts: method({
       GET: [getProducts],
+    }),
+    getOrder: method({
+      GET: [validateOrder, getOrder],
     }),
   },
 })

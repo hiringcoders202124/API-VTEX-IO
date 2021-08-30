@@ -5,6 +5,21 @@
   "minReplicas": 2,
   "maxReplicas": 4,
   "workers": 1,
+  "events": {
+    "allStates": {
+      "sender": "vtex.orders-broadcast",
+      "topics": [
+        "order-status-updated"
+      ]
+    },
+    "someStates": {
+      "sender": "vtex.orders-broadcast",
+      "topics": [
+        "cancel",
+        "order-created"
+      ]
+    }
+  },
   "routes": {
     "getSku": {
       "path": "/_v/catalog/:code",
@@ -12,6 +27,10 @@
     },
     "getProducts": {
       "path": "/_v/catalog/",
+      "public": true
+    },
+    "getOrder": {
+      "path": "/_v/orders/:id",
       "public": true
     }
   }
