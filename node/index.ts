@@ -1,12 +1,6 @@
 import type { ClientsConfig, ServiceContext, RecorderState, EventContext } from '@vtex/api'
-import { method, Service } from '@vtex/api'
-
+import { Service } from '@vtex/api'
 import { Clients } from './clients'
-import { getSku } from './middlewares/getSku'
-import { getProducts } from './middlewares/getProducts'
-import { validateSku } from './middlewares/validateSku'
-import { getOrder } from './middlewares/getOrder'
-import { validateOrder } from './middlewares/validateOrder'
 import { checkLeads } from './middlewares/checkLeads'
 
 const TIMEOUT_MS = 800
@@ -56,14 +50,8 @@ export default new Service({
   },
   routes: {
     // `status` is the route ID from service.json. It maps to an array of middlewares (or a single handler).
-    getSku: method({
-      GET: [validateSku, getSku],
-    }),
-    getProducts: method({
-      GET: [getProducts],
-    }),
-    getOrder: method({
-      GET: [validateOrder, getOrder],
-    }),
+    //   getOrder: method({
+    //     GET: [getOrder],
+    //   }),
   },
 })

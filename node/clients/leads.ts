@@ -1,8 +1,6 @@
 import type { InstanceOptions, IOContext } from '@vtex/api'
 import { ExternalClient } from '@vtex/api'
 
-
-
 type Lead = {
   "userEmail": string,
   "userType": string,
@@ -26,14 +24,13 @@ export default class Leads extends ExternalClient {
     )
   }
 
-
   public async getLeads(): Promise<objectLead> {
     return this.http.get('', {
       metric: 'lead-get',
     })
   }
 
-  public async createLead(name: string, phone: string, email: string): Promise<string> {
+  public async createClient(name: string, phone: string, email: string): Promise<string> {
     return this.http.post('',
       {
         name,
@@ -41,7 +38,19 @@ export default class Leads extends ExternalClient {
         userEmail: email,
         userType: "client"
       },
+      {
+        metric: 'lead-post',
+      })
+  }
 
+  public async createProspect(name: string, phone: string, email: string): Promise<string> {
+    return this.http.post('',
+      {
+        name,
+        phone,
+        userEmail: email,
+        userType: "prospect"
+      },
       {
         metric: 'lead-post',
       })

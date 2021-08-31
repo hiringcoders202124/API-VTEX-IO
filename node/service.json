@@ -12,19 +12,5 @@
         "order-created"
       ]
     }
-  },
-  "routes": {
-    "getSku": {
-      "path": "/_v/catalog/:code",
-      "public": true
-    },
-    "getProducts": {
-      "path": "/_v/catalog/",
-      "public": true
-    },
-    "getOrder": {
-      "path": "/_v/orders/:id",
-      "public": true
-    }
   }
 }

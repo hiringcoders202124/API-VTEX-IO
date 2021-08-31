@@ -8,16 +8,16 @@ export async function checkLeads(ctx: StatusChangeContext, next: () => Promise<a
 
     const profileName = firstName + ' ' + lastName
 
-    const lead = await ctx.clients.leads.getLeads()
+    const leads = await ctx.clients.leads.getLeads()
 
-    const phoneSearchResult = lead.Items.find(x => x.phone === phone)
+    const phoneSearchResult = leads.Items.find(x => x.phone === phone)
 
     const leadId = phoneSearchResult?.id
 
     if (leadId !== undefined)
         await ctx.clients.leads.setLeadAsClient(leadId)
     else {
-        await ctx.clients.leads.createLead(profileName, phone, email)
+        await ctx.clients.leads.createClient(profileName, phone, email)
     }
 
     await next()
