@@ -48,7 +48,6 @@ export default class Leads extends ExternalClient {
   }
 
   public async setLeadAsClient(leadId: string): Promise<string> {
-    console.log("SETADO COMO CLIENT O", leadId)
     return this.http.patch(leadId, {
       userType: "client"
     },
